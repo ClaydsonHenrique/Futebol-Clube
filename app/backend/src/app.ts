@@ -1,5 +1,6 @@
 import * as express from 'express';
 import 'express-async-errors';
+import { getAllTeam, getTeamsByID } from './controllers/teams.controller';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 
@@ -13,7 +14,8 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
-
+    this.app.get('/teams', getAllTeam);
+    this.app.get('/teams/:id', getTeamsByID);
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
     // Mantenha ele sempre como o último middleware a ser chamado
     this.app.use(errorMiddleware);
