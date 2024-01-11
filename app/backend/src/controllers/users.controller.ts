@@ -7,6 +7,6 @@ const Login = async (req:Request, res:Response): Promise<void> => {
     res.status(400).json({ message: 'All fields must be filled' });
   }
   const { status, data } = await login({ email, password });
-  res.status(status).json(data);
+  res.status(status).json({ token: data });
 };
 export default Login;
