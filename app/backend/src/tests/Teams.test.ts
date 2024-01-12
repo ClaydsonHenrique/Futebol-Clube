@@ -4,8 +4,6 @@ import * as chai from "chai";
 import chaiHttp = require("chai-http");
 
 import { app } from "../app";
-import Teams from "../database/models/20240108214809-teams";
-import { MockTeamID } from "./mocks/Teams.mock";
 
 import { Response } from "superagent";
 
@@ -15,7 +13,6 @@ const { expect } = chai;
 
 describe("/teams", () => {
   describe("GET/ teams", () => {
-    
     let chaiHttpResponse: Response;
     let findAllStub: sinon.SinonStub;
     
