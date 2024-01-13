@@ -6,13 +6,16 @@ import sing from '../utils/token.utils';
 const login = async (user:Ilogin) => {
   const { email, password } = user;
   const verifyLogin = await UserModels.findOne({ where: { email } });
-  if (!verifyLogin) throw new Error('Email or Password is incorrect');
+  console.log(verifyLogin, 'fsfdsf');
+  if (!verifyLogin || !verifyLogin.dataValues) {
+    return { status: 401, data: { message: 'Invalid email or password' } };
+  }
   const verfifyPassword = await bcrypt.compare(
     password,
     verifyLogin.password,
   );
   if (!verfifyPassword) {
-    return { status: 403, data: { message: 'senha incorreta' } };
+    return { status: 401, data: { message: 'Invalid email or password' } };
   }
   const { role } = verifyLogin;
   const token = sing({ email, role });

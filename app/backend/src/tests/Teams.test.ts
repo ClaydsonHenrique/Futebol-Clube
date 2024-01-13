@@ -24,6 +24,7 @@ describe("/teams", () => {
       const httpResponse = await chai.request(app).get("/teams").send();
       expect(httpResponse.status).to.equal(200);
     });
+    
     it("listando todos os times", async () => {
       const httpResponse = await chai.request(app).get("/teams/1").send();
       expect(httpResponse.status).to.equal(200);
