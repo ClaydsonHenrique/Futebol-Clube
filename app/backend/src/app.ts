@@ -1,10 +1,10 @@
 import * as express from 'express';
 import 'express-async-errors';
 import { getAllTeam, getTeamsByID } from './controllers/teams.controller';
-import Login from './controllers/users.controller';
+import { Login, role } from './controllers/users.controller';
 
 import errorMiddleware from './middlewares/errorMiddleware';
-import erroLogin from './middlewares/erroLogin';
+import { erroLogin, erroRole } from './middlewares/erroLogin';
 
 class App {
   public app: express.Express;
@@ -18,7 +18,11 @@ class App {
     this.app.get('/', (req, res) => res.json({ ok: true }));
     this.app.get('/teams', getAllTeam);
     this.app.get('/teams/:id', getTeamsByID);
+
+    // login
     this.app.post('/login', erroLogin, Login);
+    this.app.get('/login/role', erroRole, role);
+
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
     // Mantenha ele sempre como o último middleware a ser chamado
     this.app.use(errorMiddleware);
