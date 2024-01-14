@@ -2,7 +2,7 @@ import * as express from 'express';
 import 'express-async-errors';
 import { getAllTeam, getTeamsByID } from './controllers/teams.controller';
 import { Login, role } from './controllers/users.controller';
-import { Matches, finishMatch } from './controllers/matches.controller';
+import { Matches, finishMatch, updateMatch } from './controllers/matches.controller';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 import { erroLogin, tokenFail } from './middlewares/erroLogin';
@@ -29,6 +29,7 @@ class App {
     /** Rota matches */
     this.app.get('/matches', Matches);
     this.app.patch('/matches/:id/finish', tokenFail, finishMatch);
+    this.app.patch('/matches/:id', tokenFail, updateMatch);
 
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
     // Mantenha ele sempre como o último middleware a ser chamado
