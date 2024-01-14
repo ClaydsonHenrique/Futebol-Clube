@@ -2,10 +2,10 @@ import * as express from 'express';
 import 'express-async-errors';
 import { getAllTeam, getTeamsByID } from './controllers/teams.controller';
 import { Login, role } from './controllers/users.controller';
-import Matches from './controllers/matches.controller';
+import { Matches, finishMatch } from './controllers/matches.controller';
 
 import errorMiddleware from './middlewares/errorMiddleware';
-import { erroLogin, erroRole } from './middlewares/erroLogin';
+import { erroLogin, tokenFail } from './middlewares/erroLogin';
 
 class App {
   public app: express.Express;
@@ -24,10 +24,11 @@ class App {
 
     /** Rota login */
     this.app.post('/login', erroLogin, Login);
-    this.app.get('/login/role', erroRole, role);
+    this.app.get('/login/role', tokenFail, role);
 
     /** Rota matches */
     this.app.get('/matches', Matches);
+    this.app.patch('/matches/:id/finish', tokenFail, finishMatch);
 
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
     // Mantenha ele sempre como o último middleware a ser chamado

@@ -18,7 +18,7 @@ const erroLogin = (req:Request, res:Response, next:NextFunction) => {
   return next();
 };
 
-const erroRole = (req:Request, res:Response, next:NextFunction) => {
+const tokenFail = (req:Request, res:Response, next:NextFunction) => {
   const { authorization: token } = req.headers;
 
   console.log(token, 'token');
@@ -43,4 +43,4 @@ const erroRole = (req:Request, res:Response, next:NextFunction) => {
   return next();
 };
 
-export { erroLogin, erroRole };
+export { erroLogin, tokenFail };
