@@ -9,6 +9,8 @@ import { Response } from "superagent";
 
 import UserModel from "../database/models/20240110191218-login";
 import LoginMock from "./mocks/LoginMock";
+import { sign } from "../utils/token.utils";
+import {tokenValido, tokenInvalido} from './mocks/loginRole.mock'
 
 chai.use(chaiHttp);
 
@@ -98,4 +100,39 @@ describe("/login", () => {
       });
     });
   });
+});
+
+describe("get/post", () => {
+  it("verificando se retorna a role", async () => {
+    const getToken = sign(tokenValido);
+
+    const response = await chai
+      .request(app)
+      .get("/login/role")
+      .set("Authorization", `Bearer ${getToken}`);
+
+    expect(response.status).to.equal(200);
+    expect(response.body).to.deep.equal({role:'admin'})
+  });
+    it("verificando se retorna erro com token vazio ", async () => {
+
+      const response = await chai
+        .request(app)
+        .get("/login/role")
+        .set("Authorization", ``);
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({ message: "Token not found" });
+    });
+        it("verificando se retorna erro com token invalido ", async () => {
+          const response = await chai
+            .request(app)
+            .get("/login/role")
+            .set("Authorization", `Bearer ${tokenInvalido}`);
+
+          expect(response.status).to.equal(401);
+          expect(response.body).to.deep.equal({
+            message: "Token must be a valid token",
+          });
+        });
 });
