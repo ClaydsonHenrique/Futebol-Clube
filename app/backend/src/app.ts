@@ -2,6 +2,7 @@ import * as express from 'express';
 import 'express-async-errors';
 import { getAllTeam, getTeamsByID } from './controllers/teams.controller';
 import { Login, role } from './controllers/users.controller';
+import Matches from './controllers/matches.controller';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 import { erroLogin, erroRole } from './middlewares/erroLogin';
@@ -16,12 +17,17 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+
+    /** Rota Teams */
     this.app.get('/teams', getAllTeam);
     this.app.get('/teams/:id', getTeamsByID);
 
-    // login
+    /** Rota login */
     this.app.post('/login', erroLogin, Login);
     this.app.get('/login/role', erroRole, role);
+
+    /** Rota matches */
+    this.app.get('/matches', Matches);
 
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
     // Mantenha ele sempre como o último middleware a ser chamado

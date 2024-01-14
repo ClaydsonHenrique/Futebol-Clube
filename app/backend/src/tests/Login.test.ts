@@ -46,42 +46,56 @@ describe("/login", () => {
         .post("/login")
         .send(emailIncorreto);
       console.log(ServiceResponse);
-      
+
       expect(ServiceResponse.status).to.equal(401);
       expect(ServiceResponse.body).to.deep.equal({
         message: "Invalid email or password",
       });
     });
-    
-     it("verificando login com email com formato invalido retorna erro", async () => {
-       const emailIncorreto = LoginMock.emailIvalid2;
 
-       const ServiceResponse = await chai
-         .request(app)
-         .post("/login")
-         .send(emailIncorreto);
-       console.log(ServiceResponse);
+    it("verificando login com email com formato invalido retorna erro", async () => {
+      const emailIncorreto = LoginMock.emailIvalid2;
 
-       expect(ServiceResponse.status).to.equal(401);
-       expect(ServiceResponse.body).to.deep.equal({
-         message: "Invalid email or password",
-       });
-     });
-     
-      it("verificando login com email vazio retorna erro", async () => {
-        const emailIncorreto = LoginMock.emailVazio;
+      const ServiceResponse = await chai
+        .request(app)
+        .post("/login")
+        .send(emailIncorreto);
+      console.log(ServiceResponse);
 
-        const ServiceResponse = await chai
-          .request(app)
-          .post("/login")
-          .send(emailIncorreto);
-        console.log(ServiceResponse);
-
-        expect(ServiceResponse.status).to.equal(400);
-        expect(ServiceResponse.body).to.deep.equal({
-          message: "All fields must be filled",
-        });
+      expect(ServiceResponse.status).to.equal(401);
+      expect(ServiceResponse.body).to.deep.equal({
+        message: "Invalid email or password",
       });
-    
+    });
+
+    it("verificando login com email vazio retorna erro", async () => {
+      const emailIncorreto = LoginMock.emailVazio;
+
+      const ServiceResponse = await chai
+        .request(app)
+        .post("/login")
+        .send(emailIncorreto);
+      console.log(ServiceResponse);
+
+      expect(ServiceResponse.status).to.equal(400);
+      expect(ServiceResponse.body).to.deep.equal({
+        message: "All fields must be filled",
+      });
+    });
+
+    it("verificando login com senha invalida retorna erro", async () => {
+      const passwordInvalid = LoginMock.passwordInvalid;
+
+      const ServiceResponse = await chai
+        .request(app)
+        .post("/login")
+        .send(passwordInvalid);
+      console.log(ServiceResponse);
+
+      expect(ServiceResponse.status).to.equal(401);
+      expect(ServiceResponse.body).to.deep.equal({
+        message: "Invalid email or password",
+      });
+    });
   });
 });
