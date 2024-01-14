@@ -24,7 +24,6 @@ const matchesInProgrecess = async (inProgress:string): Promise<TeamsServices> =>
     return { status: 400, data: { message: 'erro' } };
   }
   const matchValue = inProgress === 'true';
-  console.log(matchValue);
   const allMatches = await Matches.findAll({
     where: { inProgress: matchValue },
     include: [
@@ -44,8 +43,9 @@ const finshMatchService = async (id:number) => {
   if (!getMatche) {
     return { status: 400, data: { message: 'id invalido' } };
   }
-  await Matches.update({ inProgress: false as any }, { where: { id } });
-  return { status: 201, data: { message: 'Finished' } };
+  console.log(getMatche, 'ljsldkflskdf');
+  await Matches.update({ inProgress: 0 as any }, { where: { id } });
+  return { status: 200, data: { message: 'Finished' } };
 };
 
 export { getMatches, matchesInProgrecess, finshMatchService };

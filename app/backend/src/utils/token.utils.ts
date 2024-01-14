@@ -22,7 +22,6 @@ function sign(payload: TokenPayload): string | null {
 function verifyToken(token: string): TokenPayload | null {
   try {
     const tokenVerify = jwt.verify(token, secret) as TokenPayload;
-    console.log(tokenVerify, 'verificando token');
     return tokenVerify;
   } catch (err) {
     return null;

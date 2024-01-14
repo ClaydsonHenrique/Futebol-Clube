@@ -21,22 +21,15 @@ const erroLogin = (req:Request, res:Response, next:NextFunction) => {
 const tokenFail = (req:Request, res:Response, next:NextFunction) => {
   const { authorization: token } = req.headers;
 
-  console.log(token, 'token');
-
   if (!token) {
     return res.status(401).json({ message: 'Token not found' });
   }
 
   const tokens = token.split(' ')[1];
 
-  console.log(tokens);
-
   const validToken = verifyToken(tokens);
 
-  console.log(validToken, 'valid token');
-
   if (!validToken) {
-    console.log('entrou aqui 222', validToken);
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
 
