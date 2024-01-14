@@ -57,7 +57,6 @@ const updateMatches = async (
     return { status: 400, data: { message: 'id não encontrado' } };
   }
   const getMatche = await Matches.findOne({ where: { id } });
-  console.log(getMatche, 'lkjlk');
   if (!getMatche) {
     return { status: 400, data: { message: 'id invalido' } };
   }
@@ -65,4 +64,26 @@ const updateMatches = async (
   return { status: 200, data: { message: 'atualizado' } };
 };
 
-export { getMatches, matchesInProgrecess, finshMatchService, updateMatches };
+const createNewMatch = async (
+  homeTeamId: number,
+  awayTeamId:number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+) => {
+  const createMatch = await Matches.create(
+    { homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: true },
+  );
+  return { status: 201, data: createMatch };
+};
+
+export {
+  getMatches,
+  matchesInProgrecess,
+  finshMatchService,
+  updateMatches,
+  createNewMatch,
+};

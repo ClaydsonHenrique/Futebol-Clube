@@ -4,6 +4,7 @@ import {
   matchesInProgrecess,
   finshMatchService,
   updateMatches,
+  createNewMatch,
 } from '../services/matches.service';
 
 const Matches = async (req: Request, res: Response) => {
@@ -29,4 +30,15 @@ const updateMatch = async (req: Request, res: Response) => {
   return res.status(matchFinished.status).json(matchFinished.data);
 };
 
-export { Matches, finishMatch, updateMatch };
+const createMatch = async (req:Request, res:Response): Promise<void> => {
+  const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+  const newMatch = await createNewMatch(
+    homeTeamId,
+    awayTeamId,
+    homeTeamGoals,
+    awayTeamGoals,
+  );
+  res.status(newMatch.status).json(newMatch.data);
+};
+
+export { Matches, finishMatch, updateMatch, createMatch };
