@@ -8,19 +8,25 @@ type TokenPayload = {
 };
 
 // criando token
-function sing(payload: TokenPayload): string {
-  const token = jwt.sign(payload, secret);
-  return token;
+function sign(payload: TokenPayload): string | null {
+  try {
+    const token = jwt.sign(payload, secret);
+    return token;
+  } catch (erro) {
+    console.log('Erro na geracao do token', erro);
+    return null;
+  }
 }
 
 // validando token
 function verifyToken(token: string): TokenPayload | null {
   try {
     const tokenVerify = jwt.verify(token, secret) as TokenPayload;
+    console.log(tokenVerify, 'verificando token');
     return tokenVerify;
   } catch (err) {
     return null;
   }
 }
 
-export { sing, verifyToken };
+export { sign, verifyToken };
