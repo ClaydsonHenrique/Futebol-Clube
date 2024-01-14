@@ -18,7 +18,7 @@ const login = async (user:Ilogin) => {
   }
   const { role } = verifyLogin;
   const token = sign({ email, role });
-  return { status: 200, data: token };
+  return { status: 200, data: { token } };
 };
 
 const getRole = (token: string): string | null => {
