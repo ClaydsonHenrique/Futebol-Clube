@@ -34,7 +34,7 @@ const calculateGoalsEfyccience = (
   updated.efficiency = Number(
     ((updated.totalPoints / (updated.totalGames * 3)) * 100).toFixed(2),
   );
-  console.log(updated, 'verificando calculate goals and eficiency');
+  console.log(updated.totalGames, 'total games');
   return updated;
 };
 
@@ -47,13 +47,16 @@ const matchResultHome = (
   if (homeTeamGoals > awayTeamGoals) {
     update.totalPoints += 3;
     update.totalVictories += 1;
+    update.efficiency = Number(((update.totalPoints / (update.totalGames * 3)) * 100).toFixed(2));
   } else if (homeTeamGoals === awayTeamGoals) {
     update.totalPoints += 1;
     update.totalDraws += 1;
+    update.efficiency = Number(((update.totalPoints / (update.totalGames * 3)) * 100).toFixed(2));
   } else {
     update.totalLosses += 1;
+    update.efficiency = Number(((update.totalPoints / (update.totalGames * 3)) * 100).toFixed(2));
   }
-  console.log(update, 'verificando upadate');
+  // console.log(update, 'verificando upadate');
   return update;
 };
 
@@ -94,6 +97,23 @@ const updateDatas = async (
   return updatedData;
 };
 
+const sortLeaderboard = (leadeboard:Ileadboard[]): Ileadboard[] => {
+  const sortTeams = leadeboard.sort((a, b) => {
+    if (a.totalPoints !== b.totalPoints) {
+      return b.totalPoints - a.totalPoints;
+    }
+    if (a.totalVictories !== b.totalVictories) {
+      return b.totalVictories - a.totalVictories;
+    }
+    if (a.goalsBalance !== b.goalsBalance) {
+      return b.goalsBalance - a.goalsBalance;
+    }
+
+    return b.goalsFavor - a.goalsFavor;
+  });
+  return sortTeams;
+};
+
 const leaderboardHome = async (): Promise<Ileadboard[]> => {
   const data = await DatasTeams();
   const homeMatches = await Matches.findAll({
@@ -102,8 +122,9 @@ const leaderboardHome = async (): Promise<Ileadboard[]> => {
   });
 
   const a = await updateDatas(homeMatches, data, 'home');
-  console.log('adfsaaaa', a);
-  return a;
+  const sortLeaderboards = sortLeaderboard(a);
+  // console.log('adfsaaaa', a);
+  return sortLeaderboards;
 };
 
 export default leaderboardHome;
