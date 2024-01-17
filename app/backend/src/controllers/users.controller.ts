@@ -5,7 +5,6 @@ const Login = async (req:Request, res:Response): Promise<void> => {
   const { email, password } = req.body;
   const userlogin = { email, password };
   const { status, data } = await login(userlogin);
-  console.log(data, 'Token gerado na rota de login');
   res.status(status).json(data);
 };
 

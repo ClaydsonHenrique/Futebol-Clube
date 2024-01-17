@@ -3,6 +3,7 @@ import 'express-async-errors';
 import { getAllTeam, getTeamsByID } from './controllers/teams.controller';
 import { Login, role } from './controllers/users.controller';
 import { Matches, finishMatch, updateMatch, createMatch } from './controllers/matches.controller';
+import leadboadersHome from './controllers/leaderboard.controller';
 import erroMatches from './middlewares/erroMatches';
 import errorMiddleware from './middlewares/errorMiddleware';
 import { erroLogin, tokenFail } from './middlewares/erroLogin';
@@ -31,6 +32,9 @@ class App {
     this.app.patch('/matches/:id/finish', tokenFail, finishMatch);
     this.app.patch('/matches/:id', tokenFail, updateMatch);
     this.app.post('/matches', tokenFail, erroMatches, createMatch);
+
+    /* Leaderboard */
+    this.app.get('/leaderboard/home', leadboadersHome);
 
     // Não remova esse middleware de erro, mas fique a vontade para customizá-lo
     // Mantenha ele sempre como o último middleware a ser chamado

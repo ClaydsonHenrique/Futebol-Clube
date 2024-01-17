@@ -10,7 +10,6 @@ const getMatches = async (): Promise<TeamsServices> => {
       { model: Teams, as: 'awayTeam', attributes: ['teamName'] },
     ],
   });
-  console.log(allMatches);
   if (!allMatches) {
     return { status: 400, data: { message: 'erro' } };
   }
@@ -43,7 +42,6 @@ const finshMatchService = async (id:number): Promise<TeamsServices> => {
   if (!getMatche) {
     return { status: 400, data: { message: 'id invalido' } };
   }
-  console.log(getMatche, 'ljsldkflskdf');
   await Matches.update({ inProgress: 0 as any }, { where: { id } });
   return { status: 200, data: { message: 'Finished' } };
 };
